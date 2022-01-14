@@ -1,6 +1,12 @@
 spring:
   jackson:
     property-naming-strategy: SNAKE_CASE
+  data:
+    mongodb:
+      database: alloyIntegrationDB
+      authentication-database: admin
+      host: localhost
+      port: 27017
 
 alloy:
   api:

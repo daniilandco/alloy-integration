@@ -1,4 +1,4 @@
-package com.github.daniilandco.alloyintegration.request;
+package com.github.daniilandco.alloyintegration.dto.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @AllArgsConstructor
-public class PersonRequest {
+public class PersonDTO {
     @JsonProperty("name_first")
     private String firstName;
     @JsonProperty("name_last")
@@ -30,6 +30,6 @@ public class PersonRequest {
     private String birthDate;
     private String documentSsn;
 
-    public PersonRequest() {
+    public PersonDTO() {
     }
 }

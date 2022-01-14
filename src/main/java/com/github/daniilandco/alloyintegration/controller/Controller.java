@@ -1,8 +1,8 @@
 package com.github.daniilandco.alloyintegration.controller;
 
-import com.github.daniilandco.alloyintegration.client.FeignClient;
-import com.github.daniilandco.alloyintegration.dto.model.PersonDto;
+import com.github.daniilandco.alloyintegration.dto.model.PersonDTO;
 import com.github.daniilandco.alloyintegration.response.RestResponse;
+import com.github.daniilandco.alloyintegration.service.PersonService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,16 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 public class Controller {
-    private final FeignClient restClient;
+    private final PersonService personService;
 
     @PostMapping("/verify")
     @ResponseBody
-    public ResponseEntity<?> verify(@RequestBody final PersonDto request) {
+    public ResponseEntity<?> verify(@RequestBody final PersonDTO request) {
         return ResponseEntity
                 .ok(new RestResponse(
                         "successful api call",
-                        restClient.getEvaluations(request)
+                        personService.verify(request)
                 ));
-
     }
 }
