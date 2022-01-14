@@ -1,7 +1,7 @@
 package com.github.daniilandco.alloyintegration.client;
 
 import com.github.daniilandco.alloyintegration.config.FeignClientConfiguration;
-import com.github.daniilandco.alloyintegration.request.PersonRequest;
+import com.github.daniilandco.alloyintegration.dto.model.PersonDto;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -12,5 +12,5 @@ import org.springframework.web.bind.annotation.RequestBody;
 )
 public interface FeignClient {
     @PostMapping(value = "/evaluations")
-    Object getEvaluations(@RequestBody final PersonRequest request);
+    Object getEvaluations(@RequestBody final PersonDto request);
 }

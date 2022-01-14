@@ -1,7 +1,7 @@
 package com.github.daniilandco.alloyintegration.controller;
 
 import com.github.daniilandco.alloyintegration.client.FeignClient;
-import com.github.daniilandco.alloyintegration.request.PersonRequest;
+import com.github.daniilandco.alloyintegration.dto.model.PersonDto;
 import com.github.daniilandco.alloyintegration.response.RestResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ public class Controller {
 
     @PostMapping("/verify")
     @ResponseBody
-    public ResponseEntity<?> verify(@RequestBody final PersonRequest request) {
+    public ResponseEntity<?> verify(@RequestBody final PersonDto request) {
         return ResponseEntity
                 .ok(new RestResponse(
                         "successful api call",
