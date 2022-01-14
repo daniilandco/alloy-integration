@@ -2,10 +2,12 @@
 
 ___
 
-**Here are steps of developing the project:**
+**Here are the steps of the project development:**
 
 * Initial stage
 * Alloy API call:
     * RestClient -> reactive WebClient ->  Feign Client
 * Project builder:
-    * Maven -> Gradle
+  * Maven -> Gradle
+* Database integration:
+  * MongoDB
