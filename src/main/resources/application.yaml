@@ -1,0 +1,13 @@
+spring:
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+
+alloy:
+  api:
+    baseUrl: https://sandbox.alloy.co/v1
+    username: ${CREDS_USERNAME}
+    password: ${CREDS_PASSWORD}
+
+feign:
+  client:
+    name: feignClient
