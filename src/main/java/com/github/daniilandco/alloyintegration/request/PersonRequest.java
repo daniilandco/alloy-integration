@@ -3,6 +3,7 @@ package com.github.daniilandco.alloyintegration.request;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -10,6 +11,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
+@AllArgsConstructor
 public class PersonRequest {
     @JsonProperty("name_first")
     private String firstName;

@@ -7,7 +7,7 @@ public class RestResponse {
     private String message;
     private Object body;
 
-    public RestResponse(String message, Object body) {
+    public RestResponse(final String message, final Object body) {
         this.message = message;
         this.body = body;
     }
