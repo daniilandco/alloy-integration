@@ -13,9 +13,10 @@ import org.springframework.stereotype.Service;
 public class PersonService {
     private final FeignClient feignClient;
     private final PersonRepository personRepository;
+    private final PersonMapper personMapper;
 
     public Object verify(final PersonDTO personDTO) {
-        Person person = PersonMapper.INSTANCE.toPerson(personDTO);
+        Person person = personMapper.toPerson(personDTO);
         personRepository.save(person);
         return feignClient.getEvaluations(personDTO);
     }

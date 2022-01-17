@@ -1,8 +1,10 @@
 package com.github.daniilandco.alloyintegration.entity;
 
+import com.github.daniilandco.alloyintegration.dto.model.AddressDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
@@ -13,14 +15,11 @@ public class Person {
     private String id;
     private String firstName;
     private String lastName;
+    @Indexed(unique = true)
     private String phoneNumber;
+    @Indexed(unique = true)
     private String emailAddress;
-    private String addressLine1;
-    private String addressLine2;
-    private String addressCity;
-    private String addressState;
-    private String addressPostalCode;
-    private String addressCountryCode;
+    private AddressDTO addressInfo;
     private String birthDate;
     private String documentSsn;
 
