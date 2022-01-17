@@ -20,4 +20,8 @@ public class PersonService {
         personRepository.save(person);
         return feignClient.getEvaluations(personDTO);
     }
+
+    public Object fetch(String token) {
+        return feignClient.getEntityInfo(token);
+    }
 }
