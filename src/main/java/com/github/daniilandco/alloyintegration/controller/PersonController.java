@@ -1,6 +1,7 @@
 package com.github.daniilandco.alloyintegration.controller;
 
 import com.github.daniilandco.alloyintegration.dto.model.PersonDTO;
+import com.github.daniilandco.alloyintegration.exception.PersonAlreadyExistsException;
 import com.github.daniilandco.alloyintegration.response.RestResponse;
 import com.github.daniilandco.alloyintegration.service.PersonService;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping("api/v1/person")
 public class PersonController {
     private final PersonService personService;
 

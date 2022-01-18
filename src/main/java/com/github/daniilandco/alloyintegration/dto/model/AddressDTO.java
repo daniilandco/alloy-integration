@@ -2,7 +2,6 @@ package com.github.daniilandco.alloyintegration.dto.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -13,12 +12,10 @@ import lombok.experimental.Accessors;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @AllArgsConstructor
 public class AddressDTO {
-    @JsonProperty("address_line_1")
-    private String addressLine1;
-    @JsonProperty("address_line_2")
-    private String addressLine2;
-    private String addressCity;
-    private String addressState;
-    private String addressPostalCode;
-    private String addressCountryCode;
+    private String address_line_1;
+    private String address_line_2;
+    private String address_city;
+    private String address_state;
+    private String address_postal_code;
+    private String address_country_code;
 }
