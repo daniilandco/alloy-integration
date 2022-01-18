@@ -18,7 +18,7 @@ public class PersonController {
 
     @PostMapping("/verify")
     @ResponseBody
-    public ResponseEntity<?> verify(@RequestBody final PersonDTO request) {
+    public ResponseEntity<?> verify(@RequestBody final PersonDTO request) throws PersonAlreadyExistsException {
         return ResponseEntity
                 .ok(new RestResponse(
                         SUCCESS_MSG,
