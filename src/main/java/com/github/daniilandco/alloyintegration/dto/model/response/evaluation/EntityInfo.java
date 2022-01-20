@@ -1,6 +1,6 @@
 package com.github.daniilandco.alloyintegration.dto.model.response.evaluation;
 
-public record PersonInfo(
+public record EntityInfo(
         String name_first,
         String name_last,
         String phone_number,

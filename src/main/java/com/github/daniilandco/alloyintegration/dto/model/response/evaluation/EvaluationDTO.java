@@ -1,8 +1,6 @@
 package com.github.daniilandco.alloyintegration.dto.model.response.evaluation;
 
 import com.github.daniilandco.alloyintegration.dto.model.response.evaluation.mathcing.Matching;
-import com.github.daniilandco.alloyintegration.dto.model.response.evaluation.services.ServicesFormatted;
-import com.github.daniilandco.alloyintegration.dto.model.response.evaluation.services.ServicesRaw;
 import com.github.daniilandco.alloyintegration.dto.model.response.evaluation.social.Social;
 
 public record EvaluationDTO(
@@ -14,13 +12,13 @@ public record EvaluationDTO(
         String application_token,
         String application_version_id,
         Summary summary,
-        PersonInfo supplied,
-        PersonInfo formatted,
+        EntityInfo supplied,
+        EntityInfo formatted,
         Matching matching,
         Diligence diligence,
         Social related_data,
-        ServicesRaw raw_responses,
-        ServicesFormatted formatted_responses,
+        ServicesInfo<Object[]> raw_responses,
+        ServicesInfo<Object> formatted_responses,
         String audit_archive
 ) {
 }

@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping("api/v1/person")
-public class PersonController {
+public class EntityController {
     private static final String UNSUCCESS_MSG = "UNSUCCESSFULL API CALL";
-
     private static final String SUCCESS_MSG = "SUCCESSFULL API CALL";
+
     private final EntityService entityService;
 
     @PostMapping("/verify")
