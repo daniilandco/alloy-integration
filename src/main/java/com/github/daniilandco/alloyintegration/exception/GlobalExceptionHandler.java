@@ -1,6 +1,6 @@
 package com.github.daniilandco.alloyintegration.exception;
 
-import com.github.daniilandco.alloyintegration.response.RestResponse;
+import com.github.daniilandco.alloyintegration.dto.model.response.RestResponse;
 import feign.FeignException;
 import org.apache.tomcat.util.json.JSONParser;
 import org.apache.tomcat.util.json.ParseException;
