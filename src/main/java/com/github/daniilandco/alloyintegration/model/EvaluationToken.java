@@ -1,4 +1,4 @@
-package com.github.daniilandco.alloyintegration.entity;
+package com.github.daniilandco.alloyintegration.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,14 +12,9 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-@Document("address")
-public class Address {
+@Document("evaluation")
+public class EvaluationToken {
     @MongoId(FieldType.OBJECT_ID)
     private String id;
-    private String addressLine1;
-    private String addressLine2;
-    private String addressCity;
-    private String addressState;
-    private String addressPostalCode;
-    private String addressCountryCode;
+    private String evaluationToken;
 }
