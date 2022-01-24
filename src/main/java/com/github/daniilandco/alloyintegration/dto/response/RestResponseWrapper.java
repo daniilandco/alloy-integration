@@ -6,11 +6,8 @@ package com.github.daniilandco.alloyintegration.dto.response;
  * @author com.github.daniilandco
  * @version 1.0
  */
-public record RestResponse(
+public record RestResponseWrapper<T>(
         String message,
-        Object body
+        T body
 ) {
-    public RestResponse(String message) {
-        this(message, null);
-    }
 }

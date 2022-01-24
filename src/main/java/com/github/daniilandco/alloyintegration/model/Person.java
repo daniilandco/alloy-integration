@@ -1,6 +1,6 @@
 package com.github.daniilandco.alloyintegration.model;
 
-import com.github.daniilandco.alloyintegration.dto.request.AddressDTO;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -13,16 +13,23 @@ import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Class which represents person model stored in database.
+ *
+ * @author com.github.daniilandco
+ * @version 1.0
+ */
 @Getter
 @Setter
 @Accessors(chain = true)
 @Document(collection = "person")
-public class Person extends AddressDTO {
+@AllArgsConstructor
+public class Person {
     @MongoId(FieldType.OBJECT_ID)
     private String id;
     private String entityToken;
     @DBRef
-    private Set<EvaluationToken> evaluationTokens = new HashSet<>();
+    private final Set<EvaluationToken> evaluationTokens = new HashSet<>();
     @NotBlank
     private String firstName;
     @NotBlank
@@ -32,16 +39,5 @@ public class Person extends AddressDTO {
     @NotBlank
     private String emailAddress;
     @NotBlank
-    private String documentSsn;
-
-    public Person(String addressLine1, String addressLine2, String addressCity, String addressState, String addressPostalCode, String addressCountryCode, String id, String entityToken, String firstName, String lastName, String phoneNumber, String emailAddress, String documentSsn) {
-        super(addressLine1, addressLine2, addressCity, addressState, addressPostalCode, addressCountryCode);
-        this.id = id;
-        this.entityToken = entityToken;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
-        this.emailAddress = emailAddress;
-        this.documentSsn = documentSsn;
-    }
+    private String documentSSN;
 }

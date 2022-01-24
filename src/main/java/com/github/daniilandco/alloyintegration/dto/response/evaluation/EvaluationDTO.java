@@ -14,7 +14,7 @@ public record EvaluationDTO(
         String entity_token,
         String application_token,
         String application_version_id,
-        SummaryDTO summaryDTO,
+        SummaryDTO summary,
         String audit_archive
 ) {
 }

@@ -4,78 +4,63 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
 
 /**
- * Class which represents Person DTO.
+ * Class which represents person DTO.
  *
  * @author com.github.daniilandco
  * @version 1.0
+ * @see com.github.daniilandco.alloyintegration.model.Person
  */
 @Getter
 @Setter
 @Accessors(chain = true)
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
+@AllArgsConstructor
 public class PersonDTO {
-    /**
-     * First name field
-     */
     @JsonProperty("name_first")
-    protected String firstName;
-    /**
-     * Second name field
-     */
+    private String firstName;
     @JsonProperty("name_last")
-    protected String lastName;
-    /**
-     * Phone number field
-     */
+    private String lastName;
     @JsonProperty("phone_number")
-    protected String phoneNumber;
-    /**
-     * Email address field
-     */
+    private String phoneNumber;
     @JsonProperty("email_address")
-    protected String emailAddress;
-    /**
-     * Birth date field
-     */
+    private String emailAddress;
     @JsonProperty("birth_date")
-    protected String birthDate;
-    /**
-     * Document ssn field
-     */
+    private String birthDate;
     @JsonProperty("document_ssn")
-    protected String documentSsn;
+    private String documentSSN;
     @JsonProperty("address")
     @JsonUnwrapped
-    protected AddressDTO addressDTO;
-
-    /**
-     * Constructor - creates new PersonDTO object with particular fields
-     *
-     * @param firstName    - Person first name
-     * @param lastName     - Person last name
-     * @param phoneNumber  - Person phone number
-     * @param emailAddress - Person email address
-     *                     //     * @param addressDTO:addressLine1 - Person address line 1
-     *                     //     * @param addressDTO:addresLine2 - Person address line 2
-     *                     //     * @param addressCity - Person address city
-     *                     //     * @param addressState - Person address state
-     *                     //     * @param addressPostalCode - Person postal code
-     *                     //     * @param addressCountryCode - Person country code
-     */
-    public PersonDTO(String firstName, String lastName, String phoneNumber, String emailAddress, String birthDate, String documentSsn, AddressDTO addressDTO) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
-        this.emailAddress = emailAddress;
-        this.birthDate = birthDate;
-        this.documentSsn = documentSsn;
-        this.addressDTO = addressDTO;
-    }
+    private AddressDTO addressDTO;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

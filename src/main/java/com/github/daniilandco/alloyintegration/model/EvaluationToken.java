@@ -8,6 +8,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
+/**
+ * Class which represents evaluation token model stored in database.
+ *
+ * @author com.github.daniilandco
+ * @version 1.0
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 /**
- * Class which represents Error DTO.
+ * Class which represents error info.
  *
  * @author com.github.daniilandco
  * @version 1.0

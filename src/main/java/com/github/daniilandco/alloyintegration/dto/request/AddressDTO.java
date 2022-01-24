@@ -4,19 +4,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+/**
+ * Class which represents person's address info.
+ *
+ * @author com.github.daniilandco
+ * @version 1.0
+ */
 @Data
 @AllArgsConstructor
 public class AddressDTO {
     @JsonProperty("address_line_1")
-    protected String addressLine1;
+    private String addressLine1;
     @JsonProperty("address_line_2")
-    protected String addressLine2;
+    private String addressLine2;
     @JsonProperty("address_city")
-    protected String addressCity;
+    private String addressCity;
     @JsonProperty("address_state")
-    protected String addressState;
+    private String addressState;
     @JsonProperty("address_postal_code")
-    protected String addressPostalCode;
+    private String addressPostalCode;
     @JsonProperty("address_country_code")
-    protected String addressCountryCode;
+    private String addressCountryCode;
 }
