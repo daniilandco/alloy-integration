@@ -13,3 +13,4 @@ ___
   * MongoDB
 * Global Exception handler @ControllerAdvice
 * Described DTOs for requests and responses + mappings
+* Added transaction implementation on mongo db.
