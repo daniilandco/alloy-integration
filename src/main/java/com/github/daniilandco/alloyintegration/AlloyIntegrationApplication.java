@@ -11,5 +11,4 @@ public class AlloyIntegrationApplication {
     public static void main(String[] args) {
         SpringApplication.run(AlloyIntegrationApplication.class, args);
     }
-
 }
