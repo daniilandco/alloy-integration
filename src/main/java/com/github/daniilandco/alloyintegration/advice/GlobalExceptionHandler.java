@@ -2,6 +2,7 @@ package com.github.daniilandco.alloyintegration.advice;
 
 import com.github.daniilandco.alloyintegration.dto.response.ErrorDTO;
 import com.github.daniilandco.alloyintegration.exception.DatabaseTransactionFailureException;
+import com.github.daniilandco.alloyintegration.exception.PersonRequestIsNullException;
 import feign.FeignException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,5 +43,20 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .badRequest()
                 .body(new ErrorDTO(String.valueOf(HttpStatus.BAD_REQUEST.value()), ResponseMessage.DATABASE_TRANSACTION_ERROR.message, exception.getMessage()));
+    }
+
+    /**
+     * This method handles PersonRequestIsNullException that can occur when providing null person dto to verification service.
+     * It can occur when request body is empty, for example.
+     *
+     * @param exception caught PersonRequestIsNullException instance which must be handled
+     * @return ResponseEntity with Error as body which contains information about occurred exception
+     * @see ErrorDTO
+     */
+    @ExceptionHandler(value = PersonRequestIsNullException.class)
+    public ResponseEntity<ErrorDTO> handler(final PersonRequestIsNullException exception) {
+        return ResponseEntity
+                .badRequest()
+                .body(new ErrorDTO(String.valueOf(HttpStatus.BAD_REQUEST.value()), ResponseMessage.INVALID_REQUEST_BODY_ERROR.message, exception.getMessage()));
     }
 }

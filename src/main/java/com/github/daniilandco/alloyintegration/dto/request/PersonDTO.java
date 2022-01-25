@@ -1,13 +1,13 @@
 package com.github.daniilandco.alloyintegration.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+
+import java.time.LocalDate;
 
 
 /**
@@ -23,6 +23,7 @@ import lombok.experimental.Accessors;
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @AllArgsConstructor
+@NoArgsConstructor
 public class PersonDTO {
     @JsonProperty("name_first")
     private String firstName;
@@ -33,9 +34,10 @@ public class PersonDTO {
     @JsonProperty("email_address")
     private String emailAddress;
     @JsonProperty("birth_date")
-    private String birthDate;
+    private LocalDate birthDate;
     @JsonProperty("document_ssn")
-    private String documentSSN;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private Integer documentSSN;
     @JsonProperty("address")
     @JsonUnwrapped
     private AddressDTO addressDTO;

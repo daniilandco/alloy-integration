@@ -4,6 +4,7 @@ import com.github.daniilandco.alloyintegration.dto.request.PersonDTO;
 import com.github.daniilandco.alloyintegration.dto.response.RestResponseWrapper;
 import com.github.daniilandco.alloyintegration.dto.response.evaluation.EvaluationDTO;
 import com.github.daniilandco.alloyintegration.exception.DatabaseTransactionFailureException;
+import com.github.daniilandco.alloyintegration.exception.PersonRequestIsNullException;
 import com.github.daniilandco.alloyintegration.service.VerificationService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -34,7 +35,7 @@ public class EvaluationController {
      */
     @PostMapping("/verify")
     @ResponseBody
-    public ResponseEntity<?> verify(@RequestBody final PersonDTO request) throws DatabaseTransactionFailureException {
+    public ResponseEntity<?> verify(@RequestBody(required = false) final PersonDTO request) throws DatabaseTransactionFailureException, PersonRequestIsNullException {
         final ResponseEntity<EvaluationDTO> responseFromApi = verificationService.verify(request);
         return ResponseEntity.ok().body(new RestResponseWrapper<>(HttpStatus.OK.toString(), responseFromApi.getBody()));
     }

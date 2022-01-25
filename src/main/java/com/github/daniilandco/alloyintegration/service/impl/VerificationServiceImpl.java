@@ -4,6 +4,7 @@ import com.github.daniilandco.alloyintegration.client.FeignClient;
 import com.github.daniilandco.alloyintegration.dto.request.PersonDTO;
 import com.github.daniilandco.alloyintegration.dto.response.evaluation.EvaluationDTO;
 import com.github.daniilandco.alloyintegration.exception.DatabaseTransactionFailureException;
+import com.github.daniilandco.alloyintegration.exception.PersonRequestIsNullException;
 import com.github.daniilandco.alloyintegration.mapper.PersonMapper;
 import com.github.daniilandco.alloyintegration.model.EvaluationToken;
 import com.github.daniilandco.alloyintegration.model.Person;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Class implementation of VerificationService interface.
@@ -33,7 +35,6 @@ public class VerificationServiceImpl implements VerificationService {
     private final EvaluationRepository evaluationRepository;
     private final PersonMapper personMapper;
 
-
     /**
      * Returns ResponseEntity with EvaluationDTO as body.
      * <p>
@@ -47,7 +48,8 @@ public class VerificationServiceImpl implements VerificationService {
      * @see FeignClient
      * @see VerificationService
      */
-    public ResponseEntity<EvaluationDTO> verify(final PersonDTO personDTO) throws DatabaseTransactionFailureException {
+    public ResponseEntity<EvaluationDTO> verify(final PersonDTO personDTO) throws DatabaseTransactionFailureException, PersonRequestIsNullException {
+        Optional.ofNullable(personDTO).orElseThrow(() -> new PersonRequestIsNullException("person dto cannot be null"));
         final Person person = personMapper.toPerson(personDTO);
         final ResponseEntity<EvaluationDTO> response = feignClient.getEvaluations(personDTO);
         final EvaluationDTO responseBody = Objects.requireNonNull(response.getBody());

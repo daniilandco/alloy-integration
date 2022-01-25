@@ -1,75 +1,114 @@
 package com.github.daniilandco.alloyintegration.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.daniilandco.alloyintegration.dto.request.PersonDTO;
+import com.github.daniilandco.alloyintegration.util.MockDataGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
-@SpringBootTest
-@TestPropertySource(properties = {"ALLOY_USERNAME=dpDD6z4olOSI7N4fMCsAlKjFa7reBYhu", "ALLOY_PASSWORD=oJm3niQX1Pdy4z675kefEIKBgFn9tQ45", "MONGO_USERNAME=daniilandco", "MONGO_PASSWORD=3n3KS26XrSPnk3f"})
 @AutoConfigureMockMvc
+@SpringBootTest
+@ActiveProfiles("test")
 class EvaluationControllerTest {
-    @Autowired
-    ObjectMapper objectMapper;
+    private static final String VERIFY_ENDPOINT = "/api/v1/verify";
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private ObjectMapper objectMapper;
+    @Autowired
+    private MockDataGenerator mockDataGenerator;
 
     @Test
-    public void testOk() throws Exception {
-        String body = """
-                {
-                    "name_first":"Ganiel",
-                    "name_last":"DoeS",
-                    "phone_number":"18042562188",
-                    "email_address":"john.doe@example.com",
-                    "address_line_1":"41 Elizabeth Street",
-                    "address_line_2":"STE 500",
-                    "address_city":"New York",
-                    "address_state":"NY",
-                    "address_postal_code":"10013",
-                    "address_country_code":"US",
-                    "birth_date":"1985-06-13",
-                    "document_ssn":"123456789"
-                }""";
-
-        this.mockMvc.perform(post("/api/v1/verify")
-                        .contentType(MediaType.APPLICATION_JSON).content(body))
+    public void givenValidPersonDTO_whenVerify_thenReturnValidEvaluationDTO() throws Exception {
+        final PersonDTO requestBody = mockDataGenerator.generateValidPersonDTO();
+        this.mockMvc.perform(postJson(requestBody))
                 .andDo(print())
+                .andExpectAll(validateJsonValidResponse("body"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
-    public void testBad() throws Exception {
-        String body = """
-                {
-                    "name_first":"Ganiel",
-                    "name_last":"DoeS",
-                    "phone_number":"18042562188",
-                    "email_address":"john",
-                    "address_line_1":"41 Elizabeth Street",
-                    "address_line_2":"STE 500",
-                    "address_city":"New York",
-                    "address_state":"NY",
-                    "address_postal_code":"10013",
-                    "address_country_code":"US",
-                    "birth_date":"1985-06-13",
-                    "document_ssn":"123456789"
-                }""";
-
-        this.mockMvc.perform(post("/api/v1/verify")
-                        .contentType(MediaType.APPLICATION_JSON).content(body))
+    public void givenInvalidPersonDTO_whenVerify_thenPersonRequestIsNullException() throws Exception {
+        this.mockMvc.perform(postJson(null))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpectAll(validateJsonErrorResponses("$"))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+    }
+
+    @Test
+    public void givenPersonDTOWithWrongEmailAddressFormat_whenVerify_thenReturnClientError() throws Exception {
+        final PersonDTO requestBody = mockDataGenerator.generateValidPersonDTO()
+                .setEmailAddress("WrongEmailAddressFormat!");
+        this.mockMvc.perform(postJson(requestBody))
+                .andDo(print())
+                .andExpectAll(validateJsonErrorResponses("$"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void givenPersonDTOWithDocumentSSNFormat_whenVerify_thenReturnClientError() throws Exception {
+        final PersonDTO requestBody = mockDataGenerator.generateValidPersonDTO()
+                .setDocumentSSN(0);
+        this.mockMvc.perform(postJson(requestBody))
+                .andDo(print())
+                .andExpectAll(validateJsonErrorResponses("$"))
+                .andExpect(status().isBadRequest());
+
+        requestBody.setDocumentSSN(12345678);
+        this.mockMvc.perform(postJson(requestBody))
+                .andDo(print())
+                .andExpectAll(validateJsonErrorResponses("$"))
+                .andExpect(status().isBadRequest());
+
+        requestBody.setDocumentSSN(1234567890);
+        this.mockMvc.perform(postJson(requestBody))
+                .andDo(print())
+                .andExpectAll(validateJsonErrorResponses("$"))
+                .andExpect(status().isBadRequest());
+    }
+
+
+    private ResultMatcher[] validateJsonValidResponse(String prefix) {
+        return new ResultMatcher[]{
+                jsonPath(prefix + ".status_code").hasJsonPath(),
+                jsonPath(prefix + ".timestamp").hasJsonPath(),
+                jsonPath(prefix + ".evaluation_token").hasJsonPath(),
+                jsonPath(prefix + ".entity_token").hasJsonPath(),
+                jsonPath(prefix + ".application_token").hasJsonPath(),
+                jsonPath(prefix + ".application_version_id").hasJsonPath()
+        };
+    }
+
+    private ResultMatcher[] validateJsonErrorResponses(String prefix) {
+        return new ResultMatcher[]{
+                jsonPath(prefix + ".status").hasJsonPath(),
+                jsonPath(prefix + ".title").hasJsonPath(),
+                jsonPath(prefix + ".details").hasJsonPath()
+        };
+    }
+
+    private MockHttpServletRequestBuilder postJson(Object body) {
+        try {
+            return post(VERIFY_ENDPOINT)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(body));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.github.daniilandco.alloyintegration.service;
 import com.github.daniilandco.alloyintegration.dto.request.PersonDTO;
 import com.github.daniilandco.alloyintegration.dto.response.evaluation.EvaluationDTO;
 import com.github.daniilandco.alloyintegration.exception.DatabaseTransactionFailureException;
+import com.github.daniilandco.alloyintegration.exception.PersonRequestIsNullException;
 import com.github.daniilandco.alloyintegration.service.impl.VerificationServiceImpl;
 import org.springframework.http.ResponseEntity;
 
@@ -14,5 +15,5 @@ import org.springframework.http.ResponseEntity;
  * @see VerificationServiceImpl
  */
 public interface VerificationService {
-    ResponseEntity<EvaluationDTO> verify(final PersonDTO personDTO) throws DatabaseTransactionFailureException;
+    ResponseEntity<EvaluationDTO> verify(final PersonDTO personDTO) throws DatabaseTransactionFailureException, PersonRequestIsNullException;
 }
