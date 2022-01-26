@@ -1,6 +1,9 @@
 package com.github.daniilandco.alloyintegration.dto.request;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,8 +39,7 @@ public class PersonDTO {
     @JsonProperty("birth_date")
     private LocalDate birthDate;
     @JsonProperty("document_ssn")
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private Integer documentSSN;
+    private String documentSSN;
     @JsonProperty("address")
     @JsonUnwrapped
     private AddressDTO addressDTO;

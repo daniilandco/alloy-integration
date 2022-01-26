@@ -3,7 +3,6 @@ package com.github.daniilandco.alloyintegration.util;
 import com.github.daniilandco.alloyintegration.dto.request.AddressDTO;
 import com.github.daniilandco.alloyintegration.dto.request.PersonDTO;
 import org.springframework.stereotype.Service;
-import org.vaadin.artur.exampledata.ChanceIntegerType;
 import org.vaadin.artur.exampledata.DataType;
 import org.vaadin.artur.exampledata.ExampleDataGenerator;
 
@@ -20,8 +19,8 @@ public class MockDataGenerator {
         generator.setData(PersonDTO::setEmailAddress, DataType.EMAIL);
         generator.setData(PersonDTO::setPhoneNumber, DataType.PHONE_NUMBER);
         generator.setData(PersonDTO::setBirthDate, DataType.DATE_OF_BIRTH);
-        generator.setData(PersonDTO::setDocumentSSN, new ChanceIntegerType("integer", "{min: 100000000, max: 999999999}"));
         return generator.createBean(new Random().nextInt())
+                .setDocumentSSN(String.format("%09d", new Random().nextInt(1000000000)))
                 .setAddressDTO(generateValidAddressDTO());
     }
 

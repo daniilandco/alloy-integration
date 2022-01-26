@@ -30,7 +30,7 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    //testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo:3.2.8'
+    testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo:3.2.8'
     implementation 'org.vaadin.artur.exampledata:exampledata:3.4.0'
     implementation 'com.vaadin:flow-server:9.0.3'
     implementation 'org.mapstruct:mapstruct:1.4.2.Final'

@@ -1,9 +1,12 @@
 spring:
+  config:
+    activate:
+      on-profile: default
   jackson:
     property-naming-strategy: SNAKE_CASE
   data:
     mongodb:
-      uri: mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@alloyintegrationcluster.awggt.mongodb.net/alloyIntegrationDBtest
+      uri: mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@cluster0.awggt.mongodb.net/alloyIntegrationDBtest
       database: alloyIntegrationDB
       authentication-database: admin
       auto-index-creation: true

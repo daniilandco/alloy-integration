@@ -2,14 +2,13 @@ package com.github.daniilandco.alloyintegration.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.daniilandco.alloyintegration.AlloyIntegrationApplicationTests;
 import com.github.daniilandco.alloyintegration.dto.request.PersonDTO;
 import com.github.daniilandco.alloyintegration.util.MockDataGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -19,9 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureMockMvc
-@SpringBootTest
-@ActiveProfiles("test")
-class EvaluationControllerTest {
+class EvaluationControllerTest extends AlloyIntegrationApplicationTests {
     private static final String VERIFY_ENDPOINT = "/api/v1/verify";
     @Autowired
     private MockMvc mockMvc;
@@ -31,7 +28,7 @@ class EvaluationControllerTest {
     private MockDataGenerator mockDataGenerator;
 
     @Test
-    public void givenValidPersonDTO_whenVerify_thenReturnValidEvaluationDTO() throws Exception {
+    public void givenValid_whenVerify_thenValid() throws Exception {
         final PersonDTO requestBody = mockDataGenerator.generateValidPersonDTO();
         this.mockMvc.perform(postJson(requestBody))
                 .andDo(print())
@@ -41,43 +38,43 @@ class EvaluationControllerTest {
     }
 
     @Test
-    public void givenInvalidPersonDTO_whenVerify_thenPersonRequestIsNullException() throws Exception {
+    public void givenNull_whenVerify_thenError() throws Exception {
         this.mockMvc.perform(postJson(null))
                 .andDo(print())
-                .andExpectAll(validateJsonErrorResponses("$"))
+                .andExpectAll(validateJsonErrorResponse("$"))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
-    public void givenPersonDTOWithWrongEmailAddressFormat_whenVerify_thenReturnClientError() throws Exception {
+    public void givenInvalidEmail_whenVerify_thenError() throws Exception {
         final PersonDTO requestBody = mockDataGenerator.generateValidPersonDTO()
                 .setEmailAddress("WrongEmailAddressFormat!");
         this.mockMvc.perform(postJson(requestBody))
                 .andDo(print())
-                .andExpectAll(validateJsonErrorResponses("$"))
+                .andExpectAll(validateJsonErrorResponse("$"))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    public void givenPersonDTOWithDocumentSSNFormat_whenVerify_thenReturnClientError() throws Exception {
+    public void givenInvalidSSN_whenVerify_thenError() throws Exception {
         final PersonDTO requestBody = mockDataGenerator.generateValidPersonDTO()
-                .setDocumentSSN(0);
+                .setDocumentSSN("WrongSSNAtAll");
         this.mockMvc.perform(postJson(requestBody))
                 .andDo(print())
-                .andExpectAll(validateJsonErrorResponses("$"))
+                .andExpectAll(validateJsonErrorResponse("$"))
                 .andExpect(status().isBadRequest());
 
-        requestBody.setDocumentSSN(12345678);
+        requestBody.setDocumentSSN("12345678");
         this.mockMvc.perform(postJson(requestBody))
                 .andDo(print())
-                .andExpectAll(validateJsonErrorResponses("$"))
+                .andExpectAll(validateJsonErrorResponse("$"))
                 .andExpect(status().isBadRequest());
 
-        requestBody.setDocumentSSN(1234567890);
+        requestBody.setDocumentSSN("1234567890");
         this.mockMvc.perform(postJson(requestBody))
                 .andDo(print())
-                .andExpectAll(validateJsonErrorResponses("$"))
+                .andExpectAll(validateJsonErrorResponse("$"))
                 .andExpect(status().isBadRequest());
     }
 
@@ -93,7 +90,7 @@ class EvaluationControllerTest {
         };
     }
 
-    private ResultMatcher[] validateJsonErrorResponses(String prefix) {
+    private ResultMatcher[] validateJsonErrorResponse(String prefix) {
         return new ResultMatcher[]{
                 jsonPath(prefix + ".status").hasJsonPath(),
                 jsonPath(prefix + ".title").hasJsonPath(),

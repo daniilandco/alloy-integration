@@ -1,18 +1,15 @@
 spring:
-  jackson:
-    property-naming-strategy: SNAKE_CASE
-  data:
-    mongodb:
-      uri: mongodb+srv://daniilandco:3n3KS26XrSPnk3f@alloyintegrationcluster.awggt.mongodb.net/alloyIntegrationDBtest
-      database: alloyIntegrationDB
-      authentication-database: admin
-      auto-index-creation: true
-
+  config:
+    activate:
+      on-profile: test
+  mongodb:
+    embedded:
+      version: 3.5.5
 alloy:
   api:
     baseUrl: https://sandbox.alloy.co/v1
-    username: dpDD6z4olOSI7N4fMCsAlKjFa7reBYhu
-    password: oJm3niQX1Pdy4z675kefEIKBgFn9tQ45
+    username: ${ALLOY_USERNAME}
+    password: ${ALLOY_PASSWORD}
 
 feign:
   client:
