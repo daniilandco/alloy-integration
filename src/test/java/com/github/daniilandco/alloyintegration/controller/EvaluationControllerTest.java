@@ -2,6 +2,7 @@ package com.github.daniilandco.alloyintegration.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.daniilandco.alloyintegration.SpringBootTests;
 import com.github.daniilandco.alloyintegration.client.FeignClient;
 import com.github.daniilandco.alloyintegration.dto.request.PersonDTO;
 import com.github.daniilandco.alloyintegration.dto.response.evaluation.EvaluationDTO;
@@ -11,12 +12,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -27,21 +26,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-@SpringBootTest
+@SpringBootTests
 @AutoConfigureMockMvc
-@ActiveProfiles("test")
 class EvaluationControllerTest {
     private static final String VERIFY_ENDPOINT = "/api/v1/verify";
+    private static EvaluationDTO mockEvaluationDTO;
+    private static PersonDTO mockPersonDTO;
+
     @Autowired
     private MockMvc mockMvc;
-    private static PersonDTO mockPersonDTO;
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
     private MockDataGenerator mockDataGenerator;
-    private static EvaluationDTO mockEvaluationDTO;
+
     @MockBean
     private FeignClient feignClient;
+
 
     @BeforeEach
     public void init() {
@@ -83,8 +84,7 @@ class EvaluationControllerTest {
 
     @Test
     public void givenInvalidSSN_whenVerify_thenError() throws Exception {
-        final PersonDTO requestBody = mockDataGenerator.generateValidPersonDTO()
-                .setDocumentSSN("WrongSSNAtAll");
+        final PersonDTO requestBody = mockDataGenerator.generateValidPersonDTO().setDocumentSSN("WrongSSNAtAll");
         this.mockMvc.perform(postJson(requestBody))
                 .andDo(print())
                 .andExpectAll(validateJsonErrorResponse("$"))

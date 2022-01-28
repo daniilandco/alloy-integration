@@ -1,5 +1,6 @@
 package com.github.daniilandco.alloyintegration.service;
 
+import com.github.daniilandco.alloyintegration.SpringBootTests;
 import com.github.daniilandco.alloyintegration.client.FeignClient;
 import com.github.daniilandco.alloyintegration.dto.request.PersonDTO;
 import com.github.daniilandco.alloyintegration.dto.response.evaluation.EvaluationDTO;
@@ -16,11 +17,9 @@ import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.ConstraintViolationException;
@@ -29,22 +28,23 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 
-@SpringBootTest
-@ActiveProfiles("test")
+@SpringBootTests
 @Validated
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class VerificationServiceTest {
-    @Autowired
-    private VerificationService verificationService;
     private static VerificationService mockVerificationService;
     private static EvaluationDTO mockEvaluationDTO;
     private static PersonDTO mockPersonDTO;
+
+    @Autowired
+    private VerificationService verificationService;
     @Autowired
     private MockDataGenerator mockDataGenerator;
     @MockBean
     private FeignClient feignClient;
     @Mock
     private EvaluationRepository evaluationRepository;
+
 
     @BeforeAll
     public void setUp(@Autowired PersonMapper personMapper, @Autowired PersonRepository personRepository) {
@@ -57,13 +57,12 @@ class VerificationServiceTest {
         mockPersonDTO = mockDataGenerator.generateValidPersonDTO();
     }
 
+
     @Test
     public void givenValid_whenVerify_thenResponse() throws DatabaseTransactionFailureException {
         given(feignClient.getEvaluations(Mockito.any(PersonDTO.class)))
                 .willReturn(new ResponseEntity<>(mockEvaluationDTO, HttpStatus.CREATED));
-
         ResponseEntity<EvaluationDTO> result = verificationService.verify(mockPersonDTO);
-
         assertAll(
                 () -> assertNotNull(result),
                 () -> assertTrue(result.getStatusCode().is2xxSuccessful()),

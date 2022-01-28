@@ -1,22 +1,21 @@
 package com.github.daniilandco.alloyintegration.mapper;
 
+import com.github.daniilandco.alloyintegration.SpringBootTests;
 import com.github.daniilandco.alloyintegration.dto.request.PersonDTO;
 import com.github.daniilandco.alloyintegration.model.Person;
 import com.github.daniilandco.alloyintegration.util.MockDataGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-@ActiveProfiles("test")
+@SpringBootTests
 class PersonMapperTest {
     @Autowired
     private PersonMapper personMapper;
     @Autowired
     private MockDataGenerator mockDataGenerator;
+
 
     @Test
     public void givenPersonDTO_whenMapToPerson_thenPerson() {
