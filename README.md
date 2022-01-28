@@ -15,3 +15,5 @@ ___
 * Described DTOs for requests and responses + mappings
 * Added transaction implementation on mongo db.
 * Implemented integration/unit tests with embedded mongo db.
+* Mocked all External call API connected tests and added request validation.
+* Test coverage - 86%
