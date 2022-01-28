@@ -1,13 +1,18 @@
 package com.github.daniilandco.alloyintegration;
 
+import com.github.daniilandco.alloyintegration.controller.EvaluationController;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.beans.factory.annotation.Autowired;
 
-@SpringBootTest
-class AlloyIntegrationApplicationTests {
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+@SpringBootTests
+public class AlloyIntegrationApplicationTests {
+    @Autowired
+    private EvaluationController evaluationController;
 
     @Test
-    void contextLoads() {
+    public void contextLoader() {
+        assertNotNull(evaluationController);
     }
-
 }

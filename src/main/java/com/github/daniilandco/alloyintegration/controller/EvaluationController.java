@@ -8,7 +8,11 @@ import com.github.daniilandco.alloyintegration.service.VerificationService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 /**
  * Controller class for handling a person verifying  requests.
@@ -17,8 +21,9 @@ import org.springframework.web.bind.annotation.*;
  * @version 1.0
  */
 @RestController
-@AllArgsConstructor
 @RequestMapping("api/v1")
+@AllArgsConstructor
+@Validated
 public class EvaluationController {
     private final VerificationService verificationService;
 
@@ -34,8 +39,13 @@ public class EvaluationController {
      */
     @PostMapping("/verify")
     @ResponseBody
-    public ResponseEntity<?> verify(@RequestBody final PersonDTO request) throws DatabaseTransactionFailureException {
+    @Validated
+    public ResponseEntity<?> verify(@RequestBody(required = false)
+                                    @NotNull(message = "person dto request cannot be null")
+                                    @Valid final PersonDTO request) throws DatabaseTransactionFailureException {
         final ResponseEntity<EvaluationDTO> responseFromApi = verificationService.verify(request);
-        return ResponseEntity.ok().body(new RestResponseWrapper<>(HttpStatus.OK.toString(), responseFromApi.getBody()));
+        return ResponseEntity
+                .ok()
+                .body(new RestResponseWrapper<>(HttpStatus.OK.toString(), responseFromApi.getBody()));
     }
 }

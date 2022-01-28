@@ -5,6 +5,7 @@ import feign.auth.BasicAuthRequestInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 /**
  * Configuration class for setting up external API calls functionality with Feign client.
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
  * @version 1.0
  */
 @Configuration
+@Profile("!test")
 public class FeignClientConfig {
     @Value("${alloy.api.username}")
     private String username;

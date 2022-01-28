@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.Valid;
 import java.util.Objects;
 
 /**
@@ -33,10 +34,7 @@ public class VerificationServiceImpl implements VerificationService {
     private final EvaluationRepository evaluationRepository;
     private final PersonMapper personMapper;
 
-
     /**
-     * Returns ResponseEntity with EvaluationDTO as body.
-     * <p>
      * This method calls Alloy API via FeignClient, then creates transaction to a database.
      * If transaction is not successful it throws DatabaseTransactionFailureException.
      *
@@ -51,8 +49,8 @@ public class VerificationServiceImpl implements VerificationService {
         final Person person = personMapper.toPerson(personDTO);
         final ResponseEntity<EvaluationDTO> response = feignClient.getEvaluations(personDTO);
         final EvaluationDTO responseBody = Objects.requireNonNull(response.getBody());
-        person.setEntityToken(responseBody.entity_token());
-        EvaluationToken evaluationToken = new EvaluationToken().setEvaluationToken(responseBody.evaluation_token());
+        person.setEntityToken(responseBody.getEntityToken());
+        EvaluationToken evaluationToken = new EvaluationToken().setEvaluationToken(responseBody.getEvaluationToken());
         person.getEvaluationTokens().add(evaluationToken);
         this.save(person, evaluationToken);
         return response;
@@ -67,7 +65,7 @@ public class VerificationServiceImpl implements VerificationService {
      * @param evaluationToken evaluationToken model for storing in a database.
      * @see DatabaseTransactionFailureException
      */
-    private void save(final Person person, final EvaluationToken evaluationToken) throws DatabaseTransactionFailureException {
+    private void save(final Person person, @Valid final EvaluationToken evaluationToken) throws DatabaseTransactionFailureException {
         try {
             evaluationRepository.save(evaluationToken);
             personRepository.save(person);

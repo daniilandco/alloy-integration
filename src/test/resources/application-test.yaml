@@ -1,0 +1,16 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+  mongodb:
+    embedded:
+      version: 3.5.5
+alloy:
+  api:
+    baseUrl: https://sandbox.alloy.co/v1
+    username: ${ALLOY_USERNAME}
+    password: ${ALLOY_PASSWORD}
+
+feign:
+  client:
+    name: feignClient

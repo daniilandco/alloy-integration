@@ -11,7 +11,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public enum ResponseMessage {
     API_CALL_ERROR("alloy api call error"),
-    DATABASE_TRANSACTION_ERROR("database transaction error");
+    DATABASE_TRANSACTION_ERROR("database transaction error"),
+    INVALID_DATA_FORMAT_ERROR("invalid data format error");
 
     public final String message;
 }
