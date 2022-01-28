@@ -1,15 +1,15 @@
 package com.github.daniilandco.alloyintegration.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Email;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,25 +19,21 @@ import java.util.Set;
  * @author com.github.daniilandco
  * @version 1.0
  */
-@Getter
-@Setter
-@Accessors(chain = true)
 @Document(collection = "person")
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
+@Accessors(chain = true)
 public class Person {
-    @MongoId(FieldType.OBJECT_ID)
+    @MongoId(FieldType.STRING)
     private String id;
     private String entityToken;
     @DBRef
     private final Set<EvaluationToken> evaluationTokens = new HashSet<>();
-    @NotBlank
     private String firstName;
-    @NotBlank
     private String lastName;
-    @NotBlank
     private String phoneNumber;
-    @NotBlank
+    @Email
     private String emailAddress;
-    @NotBlank
     private String documentSSN;
 }

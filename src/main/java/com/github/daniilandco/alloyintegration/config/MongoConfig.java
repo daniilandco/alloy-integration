@@ -43,7 +43,6 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
      * @return name of the database
      */
     @Override
-    @Profile("!test")
     protected String getDatabaseName() {
         return databaseName;
     }

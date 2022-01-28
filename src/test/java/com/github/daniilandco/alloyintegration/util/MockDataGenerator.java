@@ -2,16 +2,18 @@ package com.github.daniilandco.alloyintegration.util;
 
 import com.github.daniilandco.alloyintegration.dto.request.AddressDTO;
 import com.github.daniilandco.alloyintegration.dto.request.PersonDTO;
+import com.github.daniilandco.alloyintegration.dto.response.evaluation.EvaluationDTO;
 import org.springframework.stereotype.Service;
 import org.vaadin.artur.exampledata.DataType;
 import org.vaadin.artur.exampledata.ExampleDataGenerator;
 
 import java.time.LocalDateTime;
 import java.util.Random;
-import java.util.UUID;
 
 @Service
 public class MockDataGenerator {
+    private final static Random randomizer = new Random();
+
     public PersonDTO generateValidPersonDTO() {
         var generator = new ExampleDataGenerator<>(PersonDTO.class, LocalDateTime.now());
         generator.setData(PersonDTO::setFirstName, DataType.FIRST_NAME);
@@ -19,8 +21,8 @@ public class MockDataGenerator {
         generator.setData(PersonDTO::setEmailAddress, DataType.EMAIL);
         generator.setData(PersonDTO::setPhoneNumber, DataType.PHONE_NUMBER);
         generator.setData(PersonDTO::setBirthDate, DataType.DATE_OF_BIRTH);
-        return generator.createBean(new Random().nextInt())
-                .setDocumentSSN(String.format("%09d", new Random().nextInt(1000000000)))
+        return generator.createBean(randomizer.nextInt())
+                .setDocumentSSN(String.format("%09d", randomizer.nextInt(1000000000)))
                 .setAddressDTO(generateValidAddressDTO());
     }
 
@@ -32,10 +34,16 @@ public class MockDataGenerator {
         generator.setData(AddressDTO::setAddressState, DataType.STATE);
         generator.setData(AddressDTO::setAddressCountryCode, DataType.COUNTRY);
         generator.setData(AddressDTO::setAddressPostalCode, DataType.ZIP_CODE);
-        return generator.createBean(new Random().nextInt());
+        return generator.createBean(randomizer.nextInt());
     }
 
-    public String generateRandomString() {
-        return UUID.randomUUID().toString();
+    public EvaluationDTO generateValidEvaluationDTO() {
+        var generator = new ExampleDataGenerator<>(EvaluationDTO.class, LocalDateTime.now());
+        generator.setData(EvaluationDTO::setEvaluationToken, DataType.WORD);
+        generator.setData(EvaluationDTO::setApplicationToken, DataType.WORD);
+        generator.setData(EvaluationDTO::setEntityToken, DataType.WORD);
+        return generator.createBean(randomizer.nextInt())
+                .setStatusCode(randomizer.nextLong())
+                .setTimestamp(randomizer.nextLong());
     }
 }

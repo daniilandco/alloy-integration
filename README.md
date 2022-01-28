@@ -14,3 +14,4 @@ ___
 * Global Exception handler @ControllerAdvice
 * Described DTOs for requests and responses + mappings
 * Added transaction implementation on mongo db.
+* Implemented integration/unit tests with embedded mongo db.

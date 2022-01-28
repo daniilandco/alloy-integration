@@ -11,8 +11,8 @@ import lombok.experimental.Accessors;
  * @version 1.0
  */
 @Data
-@Accessors(chain = true)
 @AllArgsConstructor
+@Accessors(chain = true)
 public class ErrorDTO {
     private final String status;
     private final String title;

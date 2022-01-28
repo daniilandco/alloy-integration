@@ -8,19 +8,22 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * Class which represents evaluation token model stored in database.
  *
  * @author com.github.daniilandco
  * @version 1.0
  */
+@Document("evaluation")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-@Document("evaluation")
 public class EvaluationToken {
-    @MongoId(FieldType.OBJECT_ID)
+    @MongoId(FieldType.STRING)
     private String id;
+    @NotBlank(message = "evaluation token cannot be blank")
     private String evaluationToken;
 }

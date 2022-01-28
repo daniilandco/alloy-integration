@@ -2,35 +2,60 @@ package com.github.daniilandco.alloyintegration.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.daniilandco.alloyintegration.AlloyIntegrationApplicationTests;
+import com.github.daniilandco.alloyintegration.client.FeignClient;
 import com.github.daniilandco.alloyintegration.dto.request.PersonDTO;
+import com.github.daniilandco.alloyintegration.dto.response.evaluation.EvaluationDTO;
 import com.github.daniilandco.alloyintegration.util.MockDataGenerator;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+
+@SpringBootTest
 @AutoConfigureMockMvc
-class EvaluationControllerTest extends AlloyIntegrationApplicationTests {
+@ActiveProfiles("test")
+class EvaluationControllerTest {
     private static final String VERIFY_ENDPOINT = "/api/v1/verify";
     @Autowired
     private MockMvc mockMvc;
+    private static PersonDTO mockPersonDTO;
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
     private MockDataGenerator mockDataGenerator;
+    private static EvaluationDTO mockEvaluationDTO;
+    @MockBean
+    private FeignClient feignClient;
+
+    @BeforeEach
+    public void init() {
+        mockPersonDTO = mockDataGenerator.generateValidPersonDTO();
+        mockEvaluationDTO = mockDataGenerator.generateValidEvaluationDTO();
+    }
+
 
     @Test
-    public void givenValid_whenVerify_thenValid() throws Exception {
-        final PersonDTO requestBody = mockDataGenerator.generateValidPersonDTO();
-        this.mockMvc.perform(postJson(requestBody))
+    public void givenValid_whenVerify_thenResponse() throws Exception {
+        given(feignClient.getEvaluations(Mockito.any(PersonDTO.class)))
+                .willReturn(new ResponseEntity<>(mockEvaluationDTO, HttpStatus.CREATED));
+
+        this.mockMvc.perform(postJson(mockPersonDTO))
                 .andDo(print())
                 .andExpectAll(validateJsonValidResponse("body"))
                 .andExpect(status().isOk())
@@ -85,8 +110,7 @@ class EvaluationControllerTest extends AlloyIntegrationApplicationTests {
                 jsonPath(prefix + ".timestamp").hasJsonPath(),
                 jsonPath(prefix + ".evaluation_token").hasJsonPath(),
                 jsonPath(prefix + ".entity_token").hasJsonPath(),
-                jsonPath(prefix + ".application_token").hasJsonPath(),
-                jsonPath(prefix + ".application_version_id").hasJsonPath()
+                jsonPath(prefix + ".application_token").hasJsonPath()
         };
     }
 

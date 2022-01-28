@@ -12,7 +12,7 @@ import lombok.AllArgsConstructor;
 public enum ResponseMessage {
     API_CALL_ERROR("alloy api call error"),
     DATABASE_TRANSACTION_ERROR("database transaction error"),
-    INVALID_REQUEST_BODY_ERROR("invalid request body error");
+    INVALID_DATA_FORMAT_ERROR("invalid data format error");
 
     public final String message;
 }

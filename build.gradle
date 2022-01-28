@@ -26,13 +26,13 @@ ext {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-    compileOnly 'org.projectlombok:lombok'
+    implementation 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo:3.2.8'
+    testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo:3.3.0'
     implementation 'org.vaadin.artur.exampledata:exampledata:3.4.0'
-    implementation 'com.vaadin:flow-server:9.0.3'
+    implementation 'com.vaadin:flow-server:9.0.4'
     implementation 'org.mapstruct:mapstruct:1.4.2.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
@@ -40,6 +40,7 @@ dependencies {
     compileOnly 'org.openapitools:openapi-generator-maven-plugin:5.3.1'
     testImplementation 'org.slf4j:slf4j-simple:1.7.33'
     implementation 'org.slf4j:slf4j-api:1.7.33'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 }
 
 configurations.all {
