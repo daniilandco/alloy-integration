@@ -4,8 +4,6 @@ plugins {
     id 'java'
 }
 
-group = 'com.github.daniilandco'
-version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 configurations {
@@ -14,10 +12,8 @@ configurations {
     }
 }
 
-
 repositories {
     mavenLocal()
-    mavenCentral()
     maven { url = "https://maven.vaadin.com/vaadin-addons" }
 }
 

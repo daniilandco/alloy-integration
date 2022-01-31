@@ -7,20 +7,13 @@ buildscript {
         }
     }
     dependencies {
-        classpath "org.openapitools:openapi-generator-gradle-plugin:4.3.1"
+        classpath "org.openapitools:openapi-generator-gradle-plugin:5.3.1"
     }
 }
 
 plugins {
-    id 'org.openapi.generator' version '4.3.1'
+    id 'org.openapi.generator' version '5.3.1'
     id 'base'
-}
-
-group = 'com.github.daniilandco'
-version = '0.0.1-SNAPSHOT'
-
-repositories {
-    mavenCentral()
 }
 
 task generateClient(type: GenerateTask) {
@@ -42,7 +35,7 @@ task generateClient(type: GenerateTask) {
     enablePostProcessFile = false
 }
 
-task publishClientToMavenLocal(type: Exec) {
+task publishClientToMavenLocal(type: Exec, dependsOn: generateClient) {
     workingDir "$projectDir/resources/"
     commandLine 'cmd', '/c', 'client_to_maven_local.sh'
 }

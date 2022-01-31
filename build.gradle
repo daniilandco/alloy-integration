@@ -1,3 +1,12 @@
+subprojects {
+    group = 'com.github.daniilandco'
+    version = '0.0.1-SNAPSHOT'
+
+    repositories {
+        mavenCentral()
+    }
+}
+
 task build {
     dependsOn ':api:build'
     dependsOn ':server:build'
