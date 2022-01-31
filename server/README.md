@@ -10,8 +10,8 @@ ___
 * Project builder:
     * Maven -> Gradle
 * Database integration:
-    * MongoDB
-    * Embedded mongoDB for testing
+  * MongoDB
+  * Embedded mongoDB for testing
 * Global Exception handler @ControllerAdvice
 * Described DTOs for requests and responses + mappings
 * Added transaction implementation on mongo db
@@ -19,3 +19,5 @@ ___
 * Mocked all External call API connected tests and added request validation
 * Test coverage - 86%
 * OpenApi integration, project structure refactoring
+
+---

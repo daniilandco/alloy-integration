@@ -1,0 +1,8 @@
+task build {
+    dependsOn ':api:build'
+    dependsOn ':server:build'
+}
+
+task run {
+    dependsOn ':server:bootRun'
+}
