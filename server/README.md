@@ -1,4 +1,4 @@
-# Alloy-integration study project
+# Server part of the project
 
 ___
 
@@ -18,3 +18,4 @@ ___
 * Implemented integration/unit tests with embedded mongo db
 * Mocked all External call API connected tests and added request validation
 * Test coverage - 86%
+* OpenApi integration, project structure refactoring
