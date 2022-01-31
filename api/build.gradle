@@ -1,0 +1,48 @@
+import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "org.openapitools:openapi-generator-gradle-plugin:4.3.1"
+    }
+}
+
+plugins {
+    id 'org.openapi.generator' version '4.3.1'
+    id 'base'
+}
+
+group = 'com.github.daniilandco'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+task generateClient(type: GenerateTask) {
+    generatorName = "java"
+    inputSpec = "$projectDir/resources/open-api.yaml".toString()
+    outputDir = "$buildDir/api-client-generated".toString()
+    apiPackage = "com.github.daniilandco.alloyintegration.api"
+    invokerPackage = "com.github.daniilandco.alloyintegration.invoker"
+    modelPackage = "com.github.daniilandco.alloyintegration.model"
+    configOptions = [
+            dateLibrary: "java17"
+    ]
+    groupId = "com.github.daniilandco"
+    id = 'alloy-integration-client'
+    version = '1.0.0'
+    skipValidateSpec = true
+    logToStderr = true
+    generateAliasAsModel = false
+    enablePostProcessFile = false
+}
+
+task publishClientToMavenLocal(type: Exec) {
+    workingDir "$projectDir/resources/"
+    commandLine 'cmd', '/c', 'client_to_maven_local.sh'
+}

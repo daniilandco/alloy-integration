@@ -1,0 +1,66 @@
+plugins {
+    id 'org.springframework.boot' version '2.6.2'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+group = 'com.github.daniilandco'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url = "https://maven.vaadin.com/vaadin-addons" }
+}
+
+ext {
+    set('springCloudVersion', "2021.0.0")
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    implementation 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo:3.3.0'
+    implementation 'org.vaadin.artur.exampledata:exampledata:3.4.0'
+    implementation 'com.vaadin:flow-server:9.0.4'
+    implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.4'
+    testImplementation 'org.slf4j:slf4j-simple:1.7.33'
+    implementation 'org.slf4j:slf4j-api:1.7.33'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation group: 'com.github.daniilandco', name: 'alloy-integration-client', version: '1.0.0'
+}
+
+configurations.all {
+    exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    exclude group: 'ch.qos.logback', module: 'logback-classic'
+    exclude group: 'org.apache.logging.log4j', module: 'log4j-to-slf4j'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+tasks.compileJava {
+    dependsOn ':api:publishClientToMavenLocal'
+}
