@@ -5,6 +5,7 @@ import com.github.daniilandco.alloyintegration.dto.response.RestResponseWrapper;
 import com.github.daniilandco.alloyintegration.dto.response.evaluation.EvaluationDTO;
 import com.github.daniilandco.alloyintegration.exception.DatabaseTransactionFailureException;
 import com.github.daniilandco.alloyintegration.service.VerificationService;
+import com.github.daniilandco.api.EvaluationControllerApi;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ import javax.validation.constraints.NotNull;
 @RequestMapping("api/v1")
 @AllArgsConstructor
 @Validated
-public class EvaluationController {
+public class EvaluationController extends EvaluationControllerApi {
     private final VerificationService verificationService;
 
     /**
