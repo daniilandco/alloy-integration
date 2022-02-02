@@ -1,0 +1,132 @@
+openapi: 3.0.3
+info:
+  title: Alloy API integration project
+  version: 1.0.0
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/com.github.daniil/alloy-integration/1.0.0
+  - url: http://localhost:8080
+    #description: Generated server url
+paths:
+  /api/v1/verify:
+    post:
+      tags:
+        - evaluation-controller
+      operationId: verify
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersonDTO'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/RestResponseWrapper'
+
+        "400":
+          description: BAD_REQUEST
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+components:
+  schemas:
+    PersonDTO:
+      required:
+        - document_ssn
+        - email_address
+      type: object
+      properties:
+        name_first:
+          type: string
+        name_last:
+          type: string
+        phone_number:
+          type: string
+        email_address:
+          type: string
+        birth_date:
+          type: string
+          format: date
+        document_ssn:
+          pattern: "[\\d]{9}"
+          type: string
+        address_line_1:
+          type: string
+        address_line_2:
+          type: string
+        address_city:
+          type: string
+        address_state:
+          type: string
+        address_postal_code:
+          type: string
+        address_country_code:
+          type: string
+
+    EvaluationDTO:
+      type: object
+      properties:
+        status_code:
+          type: number
+          format: int64
+        error:
+          type: string
+        timestamp:
+          type: number
+          format: int64
+        evaluation_token:
+          type: string
+        entity_token:
+          type: string
+        application_token:
+          type: string
+        summary:
+          $ref: '#/components/schemas/SummaryDTO'
+
+    SummaryDTO:
+      type: object
+      properties:
+        result:
+          type: string
+        score:
+          type: number
+          format: double
+        tags:
+          type: array
+          items:
+            type: string
+        outcome:
+          type: string
+        services:
+          type: array
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+              value:
+                type: string
+
+    RestResponseWrapper:
+      type: object
+      properties:
+        message:
+          type: string
+        body:
+          $ref: '#/components/schemas/EvaluationDTO'
+
+
+    ErrorDTO:
+      type: object
+      properties:
+        status:
+          type: string
+        title:
+          type: string
+        details:
+          type: string

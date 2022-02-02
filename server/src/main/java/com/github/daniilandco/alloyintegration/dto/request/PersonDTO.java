@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -40,6 +41,7 @@ public class PersonDTO {
     @NotNull(message = "email cannot be null")
     private String emailAddress;
     @JsonProperty("birth_date")
+    @DateTimeFormat
     private LocalDate birthDate;
     @JsonProperty("document_ssn")
     @Pattern(regexp = "[\\d]{9}", message = "document SSN should be 9 digit number")

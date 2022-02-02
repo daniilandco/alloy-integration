@@ -1,1 +1,8 @@
-rootProject.name = 'alloy-integration'
+def name = 'alloy-integration'
+def apiName = 'api'
+def serverName = 'server'
+
+rootProject.name = name
+
+include apiName
+include serverName
