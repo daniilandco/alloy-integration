@@ -18,7 +18,7 @@ plugins {
 
 task generateClient(type: GenerateTask) {
     generatorName = "java"
-    inputSpec = "$projectDir/resources/open-api.yaml".toString()
+    inputSpec = "$projectDir/resources/alloy-integration-api.yaml".toString()
     outputDir = "$buildDir/api-client-generated".toString()
     apiPackage = "com.github.daniilandco.alloyintegration.api"
     invokerPackage = "com.github.daniilandco.alloyintegration.invoker"
